@@ -1,4 +1,4 @@
-// Global dataContainer so that all methods can access this file.
+/*// Global dataContainer so that all methods can access this file.
 let empPayrollList;
 
 // The DOMContentLoaded event fires when the initial HTML document has been completely loaded and parsed,
