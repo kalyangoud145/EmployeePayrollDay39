@@ -1,4 +1,3 @@
-// UC1
 class EmployeePayrollData {
 
     // getter and setter method
@@ -44,12 +43,15 @@ class EmployeePayrollData {
 
     get startDate() { return this._startDate; }
     set startDate(startDate) {
-        let now = new Date();
-        if (startDate > now) throw alert('Start Date is a Future Date!');
-        var diff = Math.abs(now.getTime() - startDate.getTime());
-        if (diff / (1000 * 60 * 60 * 24) > 30)
-            throw alert('Start Date is beyond 30 Days!');
-        this._startDate = startDate;
+        let currentDate = new Date();
+        var diff = Math.abs(currentDate.getTime())-Math.abs(startDate.getTime());
+        if (startDate>currentDate) {
+            throw 'Start date is a future date!';
+        } else if(diff/(1000*24*60*60) > 30) {
+            throw 'Start date is beyond 30 days';
+        }else{
+            this._startDate = startDate;
+        }
     }
 
     // method

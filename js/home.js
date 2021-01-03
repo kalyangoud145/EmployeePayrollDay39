@@ -11,6 +11,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     document.querySelector(".emp-count").textContent = empPayrollList.length;
     // Calling createInnerHtml to load data in tabular form from json object using JS literals
     createInnerHtml();
+    //removing item editEmp from local storage, so as to add new item to edit emp for updating items
+    localStorage.removeItem('editEmp');
 });
 
 // Function declared in form of arrow function
@@ -35,7 +37,7 @@ var createInnerHtml = () => {
             <td>${empPayrollData._gender}</td>
             <td>${getDeptHtml(empPayrollData._department)}</td>
             <td>${empPayrollData._salary}</td>
-            <td>${empPayrollData._startDate}</td>
+            <td>${stringifyDate(empPayrollData._startDate)}</td>
             <td>
                 <img id="${empPayrollData._id}" onclick= "remove(this)" alt="delete" src="../assets/icons/delete-black-18dp.svg">
                 <img id="${empPayrollData._id}" onclick= "update(this)" alt="edit" src="../assets/icons/create-black-18dp.svg">
@@ -55,6 +57,7 @@ var getDeptHtml = (deptList) => {
     }
     return deptHtml;
 }
+
 // Function to remove entry when clicked on delete icon
 const remove = (node) => {
     // Find employee data having same id to delete from local storage
@@ -71,4 +74,16 @@ const remove = (node) => {
     document.querySelector(".emp-count").textContent = empPayrollList.length;
     // update page
     createInnerHtml();
+}
+
+// Function to update already existing data of an perticular employee
+const update= (node)=>{
+    // Find employee data having same id to update from local storage
+    let empPayrollData= empPayrollList.find(empData=>empData._id == node.id);
+    // If id doesn't exist in local storage, then return
+    if(!empPayrollData) return;
+    // To store data which is supposed to be updated, another local storage object editEmp is created
+    localStorage.setItem('editEmp',JSON.stringify(empPayrollData));
+    // Update current view and show employee_payroll page
+    window.location.replace(site_properties.emp_payroll_page);
 }
