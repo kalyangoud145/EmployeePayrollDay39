@@ -55,3 +55,20 @@ var getDeptHtml = (deptList) => {
     }
     return deptHtml;
 }
+// Function to remove entry when clicked on delete icon
+const remove = (node) => {
+    // Find employee data having same id to delete from local storage
+    let empPayrollData = empPayrollList.find(empData => empData._id = node.id);
+    // If id doesn't exist in local storage, then return
+    if (!empPayrollData) return;
+    // First map empPayrollList to store only employee id's then find index of target id
+    const index = empPayrollList.map(empData => empData._id).indexOf(empPayrollData.id);
+    // Delete data at given index using splice function, splice(index, no_of_entries_to_be_deleted)
+    empPayrollList.splice(index, 1);
+    // Update local storage
+    localStorage.setItem("EmployeePayrollList", JSON.stringify(empPayrollList));
+    // Update employee count without refreshing the page
+    document.querySelector(".emp-count").textContent = empPayrollList.length;
+    // update page
+    createInnerHtml();
+}
